@@ -25,14 +25,14 @@
     iconfontCss = require('gulp-iconfont-css'),
 
     imgDest = 'build/images',
-    imgSource = './src/images/**/*';   
+    imgSource = './src/images/**/*';
 
   /**
    * Build custom js
    */
   gulp.task('buildCustomJS', function () {
-    browserify({entries: './src/js/app.js', debug: true})
-      .transform('babelify', {presets: ['es2015']})
+    browserify({entries: './src/app/app.js', debug: true})
+      .transform('babelify', {presets: ['es2015', 'react']})
       .bundle().on('error', function (err) {
         showError.apply(this, ['JS error', err])
       })
@@ -102,7 +102,7 @@
    * Watch for file changes
    */
   gulp.task('watch', function () {
-    gulp.watch('./src/js/**/*', ['buildCustomJS']);
+    gulp.watch('./src/app/**/*', ['buildCustomJS']);
     gulp.watch('./src/vendor_entries/vendor.js', ['buildJsVendors']);
     watch('./src/scss/**/*', function () {
       gulp.run('buildSass');
@@ -128,7 +128,7 @@
   /**
    * Creating production folder without unnecessary files
    */
-  gulp.task('production', ['cleanProduction'], function () {    
+  gulp.task('production', ['cleanProduction'], function () {
     gulp.src(['./**/*',
       '!src/',
       '!src/**/*',
