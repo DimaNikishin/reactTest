@@ -22,8 +22,12 @@
   "dependencies": {
     "jquery": "~2.2.0",
     "normalize-css": "~3.0.3",
+<<<<<<< HEAD
     "include-media": "~1.4.2",
     "bootstrap": "^3.3.6",
     "react": "^15.0.1"
+=======
+    "include-media": "~1.4.2"
+>>>>>>> c5c9684c38dab060885a13037dabb6d0deaa84e3
   }
 }

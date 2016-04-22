@@ -1,9 +1,13 @@
 {
   "parser": "babel-eslint",
   "globals": {
+<<<<<<< HEAD
     "jQuery": true,
     "ReactDOM": true,
     "React": true
+=======
+    "jQuery": true
+>>>>>>> c5c9684c38dab060885a13037dabb6d0deaa84e3
   },
   "env": {
     "browser": true,
