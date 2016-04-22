@@ -25,23 +25,15 @@
     iconfontCss = require('gulp-iconfont-css'),
 
     imgDest = 'build/images',
-<<<<<<< HEAD
+
     imgSource = './src/images/**/*';
-=======
-    imgSource = './src/images/**/*';   
->>>>>>> c5c9684c38dab060885a13037dabb6d0deaa84e3
 
   /**
    * Build custom js
    */
   gulp.task('buildCustomJS', function () {
-<<<<<<< HEAD
     browserify({entries: './src/app/app.js', debug: true})
       .transform('babelify', {presets: ['es2015', 'react']})
-=======
-    browserify({entries: './src/js/app.js', debug: true})
-      .transform('babelify', {presets: ['es2015']})
->>>>>>> c5c9684c38dab060885a13037dabb6d0deaa84e3
       .bundle().on('error', function (err) {
         showError.apply(this, ['JS error', err])
       })
@@ -111,11 +103,7 @@
    * Watch for file changes
    */
   gulp.task('watch', function () {
-<<<<<<< HEAD
     gulp.watch('./src/app/**/*', ['buildCustomJS']);
-=======
-    gulp.watch('./src/js/**/*', ['buildCustomJS']);
->>>>>>> c5c9684c38dab060885a13037dabb6d0deaa84e3
     gulp.watch('./src/vendor_entries/vendor.js', ['buildJsVendors']);
     watch('./src/scss/**/*', function () {
       gulp.run('buildSass');
@@ -141,11 +129,8 @@
   /**
    * Creating production folder without unnecessary files
    */
-<<<<<<< HEAD
+
   gulp.task('production', ['cleanProduction'], function () {
-=======
-  gulp.task('production', ['cleanProduction'], function () {    
->>>>>>> c5c9684c38dab060885a13037dabb6d0deaa84e3
     gulp.src(['./**/*',
       '!src/',
       '!src/**/*',
@@ -222,8 +207,4 @@
   gulp.task('default', ['buildCustomJS', 'buildSass', 'buildJsVendors', 'buildStylesVendors', 'copyFonts', 'imageMin', 'startLocalhost', 'watch']);
   gulp.task('dev', ['buildCustomJS', 'buildSass', 'buildJsVendors', 'buildStylesVendors', 'copyFonts', 'imageMin', 'watch']);
 
-<<<<<<< HEAD
 }());
-=======
-}());
->>>>>>> c5c9684c38dab060885a13037dabb6d0deaa84e3
