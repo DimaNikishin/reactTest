@@ -1,0 +1,37 @@
+@mixin col-width($width) {
+  width: $width;
+  float:left;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+
+  body {
+    height: 100%;
+    width: 100%;
+
+    #root {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+.col-10 {
+  @include col-width((95%/12)*10);
+}
+
+.col-9 {
+  @include col-width((95%/12)*9);
+}
+
+.col-3 {
+  @include col-width((95%/12)*3);
+}
+
+.col-offset-1 {
+  margin-left: (100%/12)*1;
+}

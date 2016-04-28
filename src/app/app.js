@@ -4,13 +4,9 @@ import { SideBar } from './sidebar/sidebar'
 var MainContent = React.createClass({
   render: function() {
     return (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="main-content col-md-11 col-md-offset-1">
-            <ContentBar />
-            <SideBar />
-          </div>
-        </div>
+      <div className="col-10 col-offset-1">
+        <ContentBar />
+        <SideBar />
       </div>
     );
   }
