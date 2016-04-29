@@ -32,12 +32,12 @@
    * Build custom js
    */
   gulp.task('buildCustomJS', function () {
-    browserify({entries: './src/app/app.js', debug: true})
+    browserify({entries: './src/app/app.jsx', debug: true})
       .transform('babelify', {presets: ['es2015', 'react']})
       .bundle().on('error', function (err) {
         showError.apply(this, ['JS error', err])
       })
-      .pipe(source('app.js'))
+      .pipe(source('app.jsx'))
       .pipe(gulp.dest('./build/'));
   });
 
@@ -103,7 +103,7 @@
    * Watch for file changes
    */
   gulp.task('watch', function () {
-    gulp.watch('./src/app/**/*', ['buildCustomJS']);
+    gulp.watch('./src/app/**/*.{js,jsx}', ['buildCustomJS']);
     gulp.watch('./src/vendor_entries/vendor.js', ['buildJsVendors']);
     watch('./src/scss/**/*', function () {
       gulp.run('buildSass');

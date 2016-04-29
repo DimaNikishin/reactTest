@@ -1,13 +1,21 @@
 
 
 var AddPersonForm = React.createClass({
+
+  propTypes: {
+    statistic: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+  },
+
   render: function() {
+    var checkBoxNodes = this.props.statistic.map(function(input) {
+      return (
+        <div className="inline"><input type="checkbox"></input> {input.title}</div>
+      );
+    });
     return (
       <div>
         <div className="inline"><input type="text" placeholder="Name" className="name-input"></input></div>
-        <div className="inline"><input type="checkbox"></input> Prop1</div>
-        <div className="inline"><input type="checkbox"></input> Prop2</div>
-        <div className="inline"><input type="checkbox"></input> Prop3</div>
+        {checkBoxNodes}
         <button className="add-button">Add</button>
       </div>
     );

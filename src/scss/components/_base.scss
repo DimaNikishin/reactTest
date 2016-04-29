@@ -13,7 +13,6 @@ body {
   margin-top: 50px;
   box-shadow: 0 0 15px;
   height: 400px;
-  margin-left: 20px;
   text-align: center;
 
   .title {
@@ -99,12 +98,18 @@ body {
 .filter-block {
   margin-top: 30px;
 
-  a{
+  span{
     margin-right: 20px;
     text-decoration: none;
+    color: blue;
   }
 
-  a:hover {
+  span.active {
+    color:black!important;
+    pointer-events: none;
+  }
+
+  span:hover {
     color: black;
   }
 
