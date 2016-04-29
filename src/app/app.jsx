@@ -50,14 +50,16 @@ var MainContent = React.createClass({
    */
   updateStatistic: function(){
     var newStatistic = [...this.state.statistic];
+    var activeFilterKey;
 
     for(let m = 0; m < newStatistic.length; m++){
       newStatistic[m].quantity = 0;
       if(newStatistic[m].activeFilter){
-        this.filterUsers(newStatistic[m].key)
+        activeFilterKey = newStatistic[m].key
       }
-      //TODO: write this shit
     }
+
+    this.filterUsers(activeFilterKey);
 
     for(let i = 0; i < this.state.users.length; i++){
       for(let z = 0; z < this.state.users[i].props.length; z++){
