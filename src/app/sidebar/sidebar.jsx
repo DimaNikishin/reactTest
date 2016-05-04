@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { TotalStat } from './statistic/total-statistic.jsx'
 import { AdditionalStat } from './statistic/additional-statisctic.jsx'
 

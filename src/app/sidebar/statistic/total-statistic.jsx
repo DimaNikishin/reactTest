@@ -1,4 +1,4 @@
-
+import React from 'react';
 
 var TotalStat = React.createClass({
 

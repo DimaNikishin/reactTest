@@ -1,4 +1,4 @@
-
+import React from 'react';
 
 var AdditionalStat = React.createClass({
 

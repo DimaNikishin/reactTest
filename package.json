@@ -46,9 +46,10 @@
     "gulp-watch": "^4.3.5",
     "imagemin-pngquant": "^4.2.0",
     "node-notifier": "^4.4.0",
-    "react": "^15.0.1",
+    "react": "^15.0.2",
+    "react-addons-update": "^15.0.2",
+    "react-dom": "^15.0.2",
     "react-redux": "^4.4.5",
-    "redux": "^3.5.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },

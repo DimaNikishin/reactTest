@@ -1,10 +1,12 @@
+import React from 'react';
 
 var PersonsTable = React.createClass({
 
   propTypes: {
     statistic: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     filteredUsers: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    onUpdateUser: React.PropTypes.func.isRequired
+    onUpdateUser: React.PropTypes.func.isRequired,
+    onDeleteUser: React.PropTypes.func.isRequired
   },
 
   /**
@@ -34,7 +36,7 @@ var PersonsTable = React.createClass({
         <tr key={user.id}>
             <td>{user.name}</td>
             {props}
-            <td className="with-input"><span>X</span></td>
+            <td className="with-input"><span onClick={this.props.onDeleteUser.bind(null,user.id)}>X</span></td>
         </tr>
       );
     },this);
