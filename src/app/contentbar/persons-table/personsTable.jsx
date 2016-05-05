@@ -1,34 +1,30 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 var PersonsTable = React.createClass({
 
   propTypes: {
-    statistic: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    filteredUsers: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    onUpdateUser: React.PropTypes.func.isRequired,
-    onDeleteUser: React.PropTypes.func.isRequired
+    userData: React.PropTypes.object.isRequired
   },
 
-  /**
-   * call back function for update state
-   * @param  {number} userId
-   * @param  {string} propKey property key name
-   */
-  updateUser: function(userId,propKey){
-    this.props.onUpdateUser(userId,propKey)
+  handleRemoveUser: function(userId){
+     this.context.store.dispatch({
+       type: 'REMOVE_USER',
+       id: userId
+     });
   },
 
   render: function() {
-    var thNodes = this.props.statistic.map(function(th) {
+    var thNodes = this.props.userData.roles.map(function(th) {
       return (
         <th>{th.title}</th>
       );
     });
-    var userRecords = this.props.filteredUsers.map(function(user){
+    var userRecords = this.props.userData.users.map(function(user){
       var that = this;
-      var props = user.props.map(function(prop){
+      var props = user.roles.map(function(prop){
         return(
-          <td className="with-input"><input type="checkbox" checked={prop.value} onChange={that.updateUser.bind(null,user.id,prop.key)}/></td>
+          <td className="with-input"><input type="checkbox" checked={prop.value}/></td>
         );
       },that);
 
@@ -36,7 +32,7 @@ var PersonsTable = React.createClass({
         <tr key={user.id}>
             <td>{user.name}</td>
             {props}
-            <td className="with-input"><span onClick={this.props.onDeleteUser.bind(null,user.id)}>X</span></td>
+            <td className="with-input"><span onClick={this.handleRemoveUser.bind(null,user.id)}>X</span></td>
         </tr>
       );
     },this);
@@ -59,4 +55,18 @@ var PersonsTable = React.createClass({
   }
 });
 
-export { PersonsTable }
+PersonsTable.contextTypes = {
+   store: React.PropTypes.object
+}
+
+const mapStateToProps = (state) => {
+  return {
+    userData: state.userList
+  }
+}
+
+const CorrectPersonsTable = connect(
+  mapStateToProps
+)(PersonsTable)
+
+export { CorrectPersonsTable }

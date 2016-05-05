@@ -1,24 +1,63 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 var AdditionalStat = React.createClass({
 
   propTypes: {
-    statistic: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    onUserFilter: React.PropTypes.func.isRequired
+    userData: React.PropTypes.object.isRequired
   },
 
-  /**
-   * call back function to update state in app.jsx components
-   * @return {key} propery key name to filter by
-   */
-  displayByKey: function(key){
-    this.props.onUserFilter(key)
+  getInitialState: function() {
+
+    var userStatistic = this.props.userData.roles.map(function(roles){
+      roles.quantity = 0;
+      return roles;
+    });
+
+    for(var i = 0; i < this.props.userData.users.length; i++){
+      for(var z = 0; z < this.props.userData.users[i].roles.length; z++){
+        if(this.props.userData.users[i].roles[z].value){
+          for(var m = 0; m < userStatistic.length; m++){
+            if(userStatistic[m].key === this.props.userData.users[i].roles[z].key){
+              userStatistic[m].quantity++
+            }
+          }
+        }
+      }
+    }
+
+    return {
+      userDataStat: userStatistic
+    };
+  },
+
+  componentWillReceiveProps: function(nextProps){
+    let newStatistic = this.state.userDataStat.map(function(role){
+      var roleCopy = Object.assign({}, role);
+      roleCopy.quantity = 0;
+      return roleCopy;
+    })
+
+    for(var i = 0; i < nextProps.userData.users.length; i++){
+      for(var z = 0; z < nextProps.userData.users[i].roles.length; z++){
+        if(nextProps.userData.users[i].roles[z].value){
+          for(var m = 0; m < newStatistic.length; m++){
+            if(newStatistic[m].key === nextProps.userData.users[i].roles[z].key){
+              newStatistic[m].quantity++
+            }
+          }
+        }
+      }
+    }
+
+  this.setState({userDataStat: newStatistic});
+
   },
 
   render: function() {
-    var propsNodes = this.props.statistic.map(function(prop) {
+    var propsNodes = this.state.userDataStat.map(function(prop) {
       return (
-        <div className="properties"><p onClick={this.displayByKey.bind(null,prop.key)}>{prop.title}: {prop.quantity}</p></div>
+        <div className="properties"><p>{prop.title}: {prop.quantity}</p></div>
       );
     }, this);
     return (
@@ -29,4 +68,14 @@ var AdditionalStat = React.createClass({
   }
 });
 
-export { AdditionalStat }
+const mapStateToProps = (state) => {
+  return {
+    userData: state.userList
+  }
+}
+
+const CorrectAdditionalStat = connect(
+  mapStateToProps
+)(AdditionalStat)
+
+export { CorrectAdditionalStat }

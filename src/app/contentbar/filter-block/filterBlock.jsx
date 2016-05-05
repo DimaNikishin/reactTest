@@ -1,24 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 var FilterBlock = React.createClass({
 
   propTypes: {
-    statistic: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    onUserFilter: React.PropTypes.func.isRequired
-  },
-
-  /**
-   * call back function to update state in app.jsx components
-   * @return {key} propery key name to filter by
-   */
-  displayByKey: function(key){
-    this.props.onUserFilter(key)
+    userData: React.PropTypes.object.isRequired
   },
 
   render: function() {
-    var filterNodes = this.props.statistic.map(function(filter) {
+    var filterNodes = this.props.userData.roles.map(function(filter) {
       return (
-        <span onClick={this.displayByKey.bind(null,filter.key)} className={filter.activeFilter ? 'active' : ''}>{filter.title}</span>
+        <span>{filter.title}</span>
       );
     },this);
     return (
@@ -29,4 +21,14 @@ var FilterBlock = React.createClass({
   }
 });
 
-export { FilterBlock }
+const mapStateToProps = (state) => {
+  return {
+    userData: state.userList
+  }
+}
+
+const CorrectFilterBlock = connect(
+  mapStateToProps
+)(FilterBlock)
+
+export { CorrectFilterBlock }

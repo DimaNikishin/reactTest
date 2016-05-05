@@ -1,24 +1,27 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 var TotalStat = React.createClass({
 
   propTypes: {
-    total: React.PropTypes.number.isRequired,
-    onUserFilter: React.PropTypes.func.isRequired
-  },
-
-  /**
-   * call back function to update state in app.jsx components
-   */
-  displayAll: function(){
-    this.props.onUserFilter()
+    userData: React.PropTypes.number.isRequired
   },
 
   render: function() {
     return (
-      <div className="total-statistic"><h3 onClick={this.displayAll}>Total Persons: {this.props.total}</h3></div>
+      <div className="total-statistic"><h3>Total Persons: {this.props.userData}</h3></div>
     );
   }
 });
 
-export { TotalStat }
+const mapStateToProps = (state) => {
+  return {
+    userData: state.userList.users.length
+  }
+}
+
+const CorrectTotalStat = connect(
+  mapStateToProps
+)(TotalStat)
+
+export { CorrectTotalStat }
