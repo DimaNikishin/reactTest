@@ -8,7 +8,8 @@ import { CorrectFilterBlock } from './filter-block/filterBlock.jsx'
 var ContentBar = React.createClass({
 
   propTypes: {
-    usersData: React.PropTypes.array.isRequired
+    usersData: React.PropTypes.array.isRequired,
+    children: React.PropTypes.element.isRequired
   },
 
   render: function() {

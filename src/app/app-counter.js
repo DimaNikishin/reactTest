@@ -1,5 +1,6 @@
 import update from 'react-addons-update';
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux'
 
 let initialState = {
   roles: [{key: "rich", title: "Rich"}, {key: "genius", title: "Genius"}, {key: "superpower", title: "Superpower"}],
@@ -50,7 +51,8 @@ const sortUsers = (state = {}, action) => {
 const userTable = combineReducers({
   userList: userList,
   filterUsers: filterUsers,
-  sortUsers: sortUsers
+  sortUsers: sortUsers,
+  routing: routerReducer
 });
 
 export default userTable;

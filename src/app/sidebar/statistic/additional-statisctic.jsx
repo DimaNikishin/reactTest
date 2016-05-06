@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router'
 
 var AdditionalStat = React.createClass({
 
@@ -64,7 +65,7 @@ var AdditionalStat = React.createClass({
   render: function() {
     var propsNodes = this.state.userDataStat.map(function(prop) {
       return (
-        <div className="properties"><p onClick={this.handleFilterUser.bind(null,prop.key)}>{prop.title}: {prop.quantity}</p></div>
+        <div className="properties"><Link to={prop.key}>{prop.title}: {prop.quantity}</Link></div>
       );
     }, this);
     return (
