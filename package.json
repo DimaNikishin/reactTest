@@ -50,6 +50,8 @@
     "react-addons-update": "^15.0.2",
     "react-dom": "^15.0.2",
     "react-redux": "^4.4.5",
+    "react-router": "^2.4.0",
+    "react-router-redux": "^4.0.4",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },

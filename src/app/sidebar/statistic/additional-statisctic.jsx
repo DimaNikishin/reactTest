@@ -54,10 +54,17 @@ var AdditionalStat = React.createClass({
 
   },
 
+  handleFilterUser: function(filter){
+    this.context.store.dispatch({
+      type: 'SET_VISIBILITY_FILTER',
+      filter: filter
+    });
+  },
+
   render: function() {
     var propsNodes = this.state.userDataStat.map(function(prop) {
       return (
-        <div className="properties"><p>{prop.title}: {prop.quantity}</p></div>
+        <div className="properties"><p onClick={this.handleFilterUser.bind(null,prop.key)}>{prop.title}: {prop.quantity}</p></div>
       );
     }, this);
     return (
@@ -67,6 +74,10 @@ var AdditionalStat = React.createClass({
     );
   }
 });
+
+AdditionalStat.contextTypes = {
+   store: React.PropTypes.object
+}
 
 const mapStateToProps = (state) => {
   return {

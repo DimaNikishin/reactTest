@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 
 import userTable from './app-counter';
 
-import { ContentBar } from './contentbar/contentbar.jsx'
+import { CorrectContentBar } from './contentbar/contentbar.jsx'
 import { SideBar } from './sidebar/sidebar.jsx'
 
 let store = createStore(userTable);
@@ -16,7 +16,7 @@ var MainContent = React.createClass({
   render: function() {
     return (
       <div className="col-10 col-offset-1">
-        <ContentBar/>
+        <CorrectContentBar/>
         <SideBar/>
       </div>
     );

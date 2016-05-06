@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 var PersonsTable = React.createClass({
 
   propTypes: {
-    userData: React.PropTypes.object.isRequired
+    userRoles: React.PropTypes.array.isRequired,
+    usersData: React.PropTypes.array.isRequired,
+    sortedBy: React.PropTypes.object.isRequired
   },
 
   handleRemoveUser: function(userId){
@@ -14,17 +16,42 @@ var PersonsTable = React.createClass({
      });
   },
 
+  handleUpdateUser: function(userId,key,value){
+     this.context.store.dispatch({
+       type: 'UPDATE_USER',
+       id: userId,
+       key: key,
+       value: value
+     });
+  },
+
+  handleSortByRole: function(key){
+     this.context.store.dispatch({
+       type: 'SORT_USER',
+       key: key
+     });
+  },
+
+  handleReverseSortByRole: function(key){
+     this.context.store.dispatch({
+       type: 'REVERSE_SORT_USER',
+       key: key,
+       reverse: true
+     });
+  },
+
   render: function() {
-    var thNodes = this.props.userData.roles.map(function(th) {
+    var thNodes = this.props.userRoles.map(function(th) {
       return (
-        <th>{th.title}</th>
+        <th onClick={th.key===this.props.sortedBy.key && !this.props.sortedBy.reverse ? this.handleReverseSortByRole.bind(null,th.key) : this.handleSortByRole.bind(null,th.key)}>{th.title}</th>
       );
-    });
-    var userRecords = this.props.userData.users.map(function(user){
+    },this);
+    var userRecords = this.props.usersData.map(function(user){
       var that = this;
+      let index = user.id
       var props = user.roles.map(function(prop){
         return(
-          <td className="with-input"><input type="checkbox" checked={prop.value}/></td>
+          <td className="with-input"><input type="checkbox" checked={prop.value} onChange={this.handleUpdateUser.bind(null,index,prop.key,!prop.value)}/></td>
         );
       },that);
 
@@ -41,7 +68,7 @@ var PersonsTable = React.createClass({
         <table>
           <thead>
             <tr>
-                <th>Name</th>
+                <th onClick={!this.props.sortedBy.key && !this.props.sortedBy.reverse ? this.handleReverseSortByRole.bind(null,'') : this.handleSortByRole.bind(null,'')}>Name</th>
                 {thNodes}
                 <th>Delete</th>
             </tr>
@@ -59,9 +86,63 @@ PersonsTable.contextTypes = {
    store: React.PropTypes.object
 }
 
+const getVisibleUsers = (users, filter) => {
+  if(filter){
+    return users.filter(function(user){
+      for(var i = 0; i < user.roles.length; i++){
+        if(user.roles[i].key === filter && user.roles[i].value){
+          return true;
+        }
+      }
+    })
+  }else{
+    return users;
+  }
+}
+
+const getSortedUsers = (users, sort) => {
+  var sortedUsers;
+  if(sort.key){
+    let roleIndex = users[0].roles.findIndex((role)=>role.key === sort.key)
+    const sortFunction = (a, b) => {
+      if (a.roles[roleIndex].value > b.roles[roleIndex].value) {
+        return -1;
+      }
+      if (a.roles[roleIndex].value < b.roles[roleIndex].value) {
+        return 1;
+      }
+      return 0;
+    }
+    sortedUsers = users.sort(sortFunction)
+    if(sort.reverse){
+      return [...sortedUsers].reverse()
+    }else{
+      return [...sortedUsers]
+    }
+  }else{
+    const sortFunction = (a, b) => {
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return -1;
+      }
+      return 0;
+    }
+    sortedUsers = users.sort(sortFunction)
+    if(sort.reverse){
+      return [...sortedUsers].reverse()
+    }else{
+      return [...sortedUsers]
+    }
+  }
+}
+
 const mapStateToProps = (state) => {
   return {
-    userData: state.userList
+    usersData: getSortedUsers(getVisibleUsers(state.userList.users, state.filterUsers),state.sortUsers),
+    userRoles: state.userList.roles,
+    sortedBy: state.sortUsers
   }
 }
 

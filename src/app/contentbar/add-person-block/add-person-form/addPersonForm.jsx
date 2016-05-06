@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 var AddPersonForm = React.createClass({
 
   propTypes: {
-    userData: React.PropTypes.object.isRequired
+    userData: React.PropTypes.object.isRequired,
+    activeFilter: React.PropTypes.string.isRequired
   },
 
   getInitialState: function() {
@@ -21,6 +22,19 @@ var AddPersonForm = React.createClass({
     };
   },
 
+  componentWillReceiveProps: function(nextProps){
+    if(this.props.activeFilter !== nextProps.activeFilter){
+      var userRoles = this.state.userRoles.map(function(roles){
+        if(nextProps.activeFilter === roles.key){
+          return update(roles, {value:{$set:true}})
+        }else{
+          return update(roles, {value:{$set:false}});
+        }
+      });
+      this.setState({userRoles:userRoles})
+    }
+  },
+
   handleCheckBoxChange: function(checkBoxKey,e) {
     let objIndex = this.state.userRoles.findIndex((obj) => obj.key === checkBoxKey)
     let newRoles = update(this.state.userRoles, {[objIndex]:{value:{$set:e.target.checked}}})
@@ -32,20 +46,28 @@ var AddPersonForm = React.createClass({
   },
 
   handleAddUser: function(e){
-     e.preventDefault();
+    e.preventDefault();
      let userValidRoles = this.state.userRoles.map(function(roles){
-       var roleCopy = Object.assign({}, roles);
-       delete roleCopy.quantity;
-       delete roleCopy.title;
-       return roleCopy
-     })
+      var roleCopy = Object.assign({}, roles);
+      delete roleCopy.quantity;
+      delete roleCopy.title;
+      return roleCopy
+    })
 
-     this.context.store.dispatch({
-       type: 'ADD_USER',
-       name: this.state.userName,
-       id: this.props.userData.users.length,
-       roles: userValidRoles
-     });
+    this.context.store.dispatch({
+      type: 'ADD_USER',
+      name: this.state.userName,
+      roles: userValidRoles
+    });
+    if(this.props.activeFilter){
+      let userRoleIndex = userValidRoles.findIndex((role) => role.key === this.props.activeFilter)
+      if(!userValidRoles[userRoleIndex].value){
+        this.context.store.dispatch({
+          type: 'SET_VISIBILITY_FILTER',
+          filter: ''
+        });
+      }
+    }
   },
 
   render: function() {
@@ -73,7 +95,8 @@ AddPersonForm.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    userData: state.userList
+    userData: state.userList,
+    activeFilter: state.filterUsers
   }
 }
 
