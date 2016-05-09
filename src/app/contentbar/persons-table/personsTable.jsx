@@ -139,9 +139,8 @@ const getSortedUsers = (users, sort) => {
 }
 
 const mapStateToProps = (state,ownProps) => {
-  let filter = ownProps.params ? ownProps.params.userFilter : state.filterUsers
   return {
-    usersData: getSortedUsers(getVisibleUsers(state.userList.users, filter),state.sortUsers),
+    usersData: getSortedUsers(getVisibleUsers(state.userList.users, ownProps.params.userFilter),state.sortUsers),
     userRoles: state.userList.roles,
     sortedBy: state.sortUsers
   }

@@ -10,6 +10,7 @@ import userTable from './app-counter';
 
 import { CorrectContentBar } from './contentbar/contentbar.jsx'
 import { SideBar } from './sidebar/sidebar.jsx'
+import { CorrectPersonsTable } from './contentbar/persons-table/personsTable.jsx'
 
 let store = createStore(userTable);
 
@@ -35,9 +36,10 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={MainContent}>
-        <IndexRoute component={CorrectContentBar}>
-          <IndexRoute component={MainContent}></IndexRoute>
-        </IndexRoute>
+        <Route component={CorrectContentBar}>
+          <IndexRoute component={CorrectPersonsTable} />
+          <Route path="/:userFilter" component={CorrectPersonsTable}/>
+        </Route>
       </Route>
     </Router>
   </Provider>,

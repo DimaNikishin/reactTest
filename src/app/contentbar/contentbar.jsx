@@ -16,7 +16,7 @@ var ContentBar = React.createClass({
     return (
       <div className={this.props.usersData.length>4 ? "col-9 main-content bigList" : "col-9 main-content" }>
         <AddPersonBlock/>
-        <CorrectPersonsTable/>
+        {this.props.children}
         <CorrectFilterBlock/>
       </div>
     );
